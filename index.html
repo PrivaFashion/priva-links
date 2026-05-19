@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Priva Jewelry</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0d0a0e;
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .bg-glow {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .glow-1 {
+            top: -200px;
+            left: -100px;
+            background: radial-gradient(circle, #e8b4b8, transparent);
+            animation: float1 8s ease-in-out infinite;
+        }
+
+        .glow-2 {
+            bottom: -200px;
+            right: -100px;
+            background: radial-gradient(circle, #c9a96e, transparent);
+            animation: float2 10s ease-in-out infinite;
+        }
+
+        .glow-3 {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, #d4a574, transparent);
+            animation: pulse 6s ease-in-out infinite;
+        }
+
+        @keyframes float1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(40px, 30px); }
+        }
+
+        @keyframes float2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-30px, -40px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.2; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        canvas#sparkles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 440px;
+            padding: 50px 24px 40px;
+            text-align: center;
+        }
+
+        .logo-ring {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 28px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-ring::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            background: conic-gradient(from 0deg, #c9a96e, #e8b4b8, #f5e6d3, #c9a96e) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: spin 12s linear infinite;
+        }
+
+        .logo-ring::after {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            border: 1px solid rgba(201, 169, 110, 0.2);
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .logo-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+            background: #f5f0eb;
+        }
+
+        .brand-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 36px;
+            font-weight: 300;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, #f5e6d3, #c9a96e, #e8b4b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            font-weight: 300;
+            font-style: italic;
+            letter-spacing: 3px;
+            color: #a89080;
+            margin-bottom: 36px;
+        }
+
+        .divider {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #c9a96e, transparent);
+            margin: 0 auto 36px;
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-bottom: 40px;
+        }
+
+        .link-btn {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 24px;
+            border-radius: 60px;
+            text-decoration: none;
+            color: #f5e6d3;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 110, 0.15);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.25, 0, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .link-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 60px;
+            background: linear-gradient(135deg, rgba(201, 169, 110, 0.1), rgba(232, 180, 184, 0.05));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .link-btn:hover {
+            border-color: rgba(201, 169, 110, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(201, 169, 110, 0.1);
+        }
+
+        .link-btn:hover::before {
+            opacity: 1;
+        }
+
+        .link-btn:active {
+            transform: translateY(0);
+        }
+
+        .link-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+            background: rgba(201, 169, 110, 0.08);
+            border: 1px solid rgba(201, 169, 110, 0.12);
+        }
+
+        .link-text {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            text-align: left;
+        }
+
+        .link-arrow {
+            position: relative;
+            z-index: 1;
+            color: #c9a96e;
+            font-size: 14px;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: all 0.3s ease;
+        }
+
+        .link-btn:hover .link-arrow {
+            opacity: 0.6;
+            transform: translateX(0);
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .social-dot {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(201, 169, 110, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .social-dot:hover {
+            border-color: rgba(201, 169, 110, 0.4);
+            background: rgba(201, 169, 110, 0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(201, 169, 110, 0.12);
+        }
+
+        .footer {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #5a4a40;
+        }
+
+        .entrance {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: enter 0.8s cubic-bezier(0.25, 0, 0.25, 1) forwards;
+        }
+
+        .links .link-btn:nth-child(1) { animation-delay: 0.15s; }
+        .links .link-btn:nth-child(2) { animation-delay: 0.25s; }
+        .links .link-btn:nth-child(3) { animation-delay: 0.35s; }
+        .links .link-btn:nth-child(4) { animation-delay: 0.45s; }
+
+        .d1 { animation-delay: 0s; }
+        .d2 { animation-delay: 0.08s; }
+        .d3 { animation-delay: 0.12s; }
+        .d4 { animation-delay: 0.7s; }
+        .d5 { animation-delay: 0.8s; }
+
+        @keyframes enter {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-name {
+                font-size: 28px;
+                letter-spacing: 4px;
+            }
+            .container {
+                padding: 40px 20px 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+    <div class="bg-glow glow-3"></div>
+    <canvas id="sparkles"></canvas>
+
+    <div class="container">
+        <div class="logo-ring entrance d1">
+            <img src="logo.png" alt="Priva Logo" class="logo-img">
+        </div>
+
+        <h1 class="brand-name entrance d2">Priva</h1>
+        <p class="tagline entrance d3">handcrafted with love</p>
+        <div class="divider entrance d3"></div>
+
+        <div class="links">
+            <!-- WEBSITE: Replace # with your website URL e.g. https://priva.com -->
+            <a href="https://privafashion.shop/" class="link-btn entrance">
+                <span class="link-icon">&#10022;</span>
+                <span class="link-text">Our Website</span>
+                <span class="link-arrow">&#8594;</span>
+            </a>
+            <!-- INSTAGRAM: Replace # with your Instagram URL e.g. https://instagram.com/priva -->
+            <a href="https://www.instagram.com/priva.fashion/" class="link-btn entrance">
+                <span class="link-icon">&#9678;</span>
+                <span class="link-text">Instagram</span>
+                <span class="link-arrow">&#8594;</span>
+            </a>
+            <!-- TIKTOK: Replace # with your TikTok URL e.g. https://tiktok.com/@priva -->
+            <a href="https://www.tiktok.com/@privaexports?_r=1&_t=ZT-96TxveD8fTK" class="link-btn entrance">
+                <span class="link-icon">&#9836;</span>
+                <span class="link-text">TikTok</span>
+                <span class="link-arrow">&#8594;</span>
+            </a>
+            <!-- FACEBOOK: Replace # with your Facebook URL e.g. https://facebook.com/priva -->
+            <a href="https://www.facebook.com/profile.php?id=61574247991676" class="link-btn entrance">
+                <span class="link-icon">&#9733;</span>
+                <span class="link-text">Facebook</span>
+                <span class="link-arrow">&#8594;</span>
+            </a>
+        </div>
+
+        <p class="footer entrance d4">&#169; 2026 PRIVA FASHION</p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('sparkles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = -(Math.random() * 0.3 + 0.1);
+                this.speedX = (Math.random() - 0.5) * 0.2;
+                this.opacity = 0;
+                this.maxOpacity = Math.random() * 0.6 + 0.2;
+                this.fadeSpeed = Math.random() * 0.008 + 0.003;
+                this.phase = 'in';
+                const colors = ['#c9a96e', '#e8b4b8', '#f5e6d3', '#d4a574'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.phase === 'in') {
+                    this.opacity += this.fadeSpeed;
+                    if (this.opacity >= this.maxOpacity) this.phase = 'out';
+                } else {
+                    this.opacity -= this.fadeSpeed;
+                    if (this.opacity <= 0) this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = this.size * 4;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) {
+            const p = new Particle();
+            p.opacity = Math.random() * p.maxOpacity;
+            p.phase = Math.random() > 0.5 ? 'in' : 'out';
+            particles.push(p);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
